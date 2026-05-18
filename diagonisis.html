@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AI Diagnostics | EarHealth AI</title>
+</head>
+<body>
+    <div id="loader-overlay">
+        <div class="spinner"></div>
+        <h3 style="color:var(--text-main); font-weight:600; font-family:'Outfit', sans-serif;">Running AI Inference...</h3>
+        <p style="color:var(--text-muted); margin-top:0.5rem;">Analyzing pathological features</p>
+    </div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/diseases">Clinical Guide</a>
+        <a href="/diagnose" class="active">Diagnostic Tool</a>
+    </nav>
+
+    <header class="hero" style="padding: 4rem 1rem 2rem;">
+        <h1>Diagnostic Dashboard</h1>
+        <p>Upload a high-resolution otoscopic photograph for instantaneous neural network classification.</p>
+    </header>
+
+    <div class="container">
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
+            <div class="card">
+                <h3>1. Data Input</h3>
+                <p style="font-size: 0.95rem; margin-bottom: 2rem;">Supported formats: <strong style="color:white;">JPG, PNG</strong>. For optimal inference accuracy, ensure the tympanic membrane is centered, in-focus, and adequately illuminated.</p>
+                
+                <form id="diagForm" method="POST" action="/diagnose" enctype="multipart/form-data">
+                    <div class="upload-area" id="drop-zone">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <br>
+                        <label for="file-upload" class="file-label">
+                            Select Otoscopic Image
+                        </label>
+                        <input id="file-upload" type="file" name="file" accept="image/*" required>
+                        <span class="file-name" id="file-name">Or drag and drop here</span>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        Initialize Analysis
+                    </button>
+                </form>
+            </div>
+
+            <div class="card" style="display: flex; flex-direction: column; justify-content: center;">
+                {% if result %}
+                    <div class="result-box">
+                        <p class="result-label">Diagnostics Complete</p>
+                        <h2 class="result-class">{{ result.label }}</h2>
+                        <div class="confidence-badge">
+                            Confidence: {{ result.conf }}%
+                        </div>
+                        <br>
+                        <button onclick="location.href='/diagnose'" class="btn-secondary">Analyze Another Image</button>
+                    </div>
+                {% else %}
+                    <div style="text-align: center; opacity: 0.5; padding: 2rem;">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <h3 style="color: var(--text-main); margin-bottom: 0.5rem;">Awaiting Data</h3>
+                        <p style="font-size: 0.95rem;">System is idle. Upload a patient image on the left panel to populate diagnostic results.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 EarHealth AI Diagnostics. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById('diagForm');
+        const loader = document.getElementById('loader-overlay');
+        const fileInput = document.getElementById('file-upload');
+        const fileNameDisplay = document.getElementById('file-name');
+        const dropZone = document.getElementById('drop-zone');
+        
+        form.onsubmit = function() {
+            if(fileInput.files.length > 0) {
+                loader.style.display = 'flex';
+            }
+        };
+
+        fileInput.addEventListener('change', function(e) {
+            if(e.target.files.length > 0) {
+                fileNameDisplay.textContent = e.target.files[0].name;
+                fileNameDisplay.style.color = 'var(--text-main)';
+            }
+        });
+
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('dragover');
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            
+            if(files.length > 0) {
+                fileInput.files = files; // Assign files to file input
+                fileNameDisplay.textContent = files[0].name;
+                fileNameDisplay.style.color = 'var(--text-main)';
+            }
+        }
+    </script>
+</body>
+</html>
