@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>EarHealth AI | Advanced Diagnostics</title>
+</head>
+<body>
+    <nav>
+        <a href="/" class="active">Home</a>
+        <a href="/diseases">Clinical Guide</a>
+        <a href="/diagnose">Diagnostic Tool</a>
+    </nav>
+
+    <header class="hero">
+        <h1>EarHealth AI Portal</h1>
+        <p>Mathematical Otoscopic Classification using Pure NumPy Architecture. Experience precise, real-time auditory membrane analysis.</p>
+        <button class="btn-primary" onclick="location.href='/diagnose'">Launch Diagnostic Tool</button>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2>The Neural Architecture</h2>
+            <p>Unlike standard apps that use pre-built libraries like TensorFlow or PyTorch, this project was developed from the ground up using <strong>Matrix Calculus</strong>. The model processes raw pixel data through a multi-layer perceptron to identify patterns in the tympanic membrane with astonishing accuracy.</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3><span style="font-size: 1.5rem; margin-right: 0.5rem;">🔍</span>Feature Extraction</h3>
+                <p>Images are grayscaled and normalized to a 64x64 matrix, reducing noise while retaining critical vascular patterns and drum opacity details for granular analysis.</p>
+            </div>
+            <div class="card">
+                <h3><span style="font-size: 1.5rem; margin-right: 0.5rem;">🧮</span>Pure Math</h3>
+                <p>Uses Forward Propagation and ReLU activation functions built with raw NumPy arrays. No black-box algorithms—just transparent, rigorous linear algebra.</p>
+            </div>
+            <div class="card">
+                <h3><span style="font-size: 1.5rem; margin-right: 0.5rem;">📁</span>Multi-Class Data</h3>
+                <p>Trained on thousands of pristine otoscopic samples across five categories including Acute Otitis Media, Myringosclerosis, and normal anatomy.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <h3>How It Works</h3>
+            <ol style="margin-left: 1.5rem; color: var(--text-muted); line-height: 2;">
+                <li><strong style="color: var(--text-main);">Image Upload:</strong> User provides an otoscopic photograph via our secure portal.</li>
+                <li><strong style="color: var(--text-main);">Preprocessing:</strong> The image is intelligently resized and converted to a 4,096-dimension feature vector.</li>
+                <li><strong style="color: var(--text-main);">Inference:</strong> The vector passes through expertly trained weights to compute pathological probabilities.</li>
+                <li><strong style="color: var(--text-main);">Result:</strong> The highest probability class is returned instantaneously with a confidence score.</li>
+            </ol>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 EarHealth AI Diagnostics. All rights reserved.</p>
+    </footer>
+</body>
+</html>
