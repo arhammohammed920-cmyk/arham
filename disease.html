@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Clinical Guide | EarHealth AI</title>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/diseases" class="active">Clinical Guide</a>
+        <a href="/diagnose">Diagnostic Tool</a>
+    </nav>
+
+    <header class="hero" style="padding: 4rem 1rem 2rem;">
+        <h1>Clinical Condition Guide</h1>
+        <p>A comprehensive overview of the otoscopic pathologies recognized by our proprietary AI model.</p>
+    </header>
+
+    <div class="container">
+        <div class="grid">
+            <div class="card">
+                <h3 class="color-normal">✅ Normal Anatomy</h3>
+                <p>The tympanic membrane appears pearly-gray and translucent. The "Cone of Light" reflex is clearly visible, and no signs of inflammation or fluid are present. Indicates a healthy middle ear environment.</p>
+            </div>
+
+            <div class="card">
+                <h3 class="color-aom">🔴 Acute Otitis Media (AOM)</h3>
+                <p>A rapid onset middle ear infection. Characterized by a severely bulging, red (erythematous) eardrum, often accompanied by intense pain, fever, and purulent fluid buildup behind the membrane.</p>
+            </div>
+
+            <div class="card">
+                <h3 class="color-com">🟣 Chronic Otitis Media (COM)</h3>
+                <p>A persistent, long-standing infection that may lead to permanent destructive changes in the ear architecture, such as a perforated eardrum or continuous purulent discharge (otorrhea).</p>
+            </div>
+
+            <div class="card">
+                <h3 class="color-cerumen">🟠 Cerumen Impaction</h3>
+                <p>A dense build-up of earwax that completely obstructs the ear canal. This prevents visual assessment of the eardrum and requires safe clinical removal prior to proper diagnostic evaluation.</p>
+            </div>
+
+            <div class="card">
+                <h3 class="color-myringo">🔵 Myringosclerosis</h3>
+                <p>Hardened calcium deposits within the tympanic membrane, typically arising after recurrent episodes of chronic inflammation. Presents as distinct, opaque, chalky-white plaques on the drum surface.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 EarHealth AI Diagnostics. All rights reserved.</p>
+    </footer>
+</body>
+</html>
